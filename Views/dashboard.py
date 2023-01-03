@@ -114,7 +114,12 @@ class Userdashboard():
         self.table.insert('' ,'end' , text="1" , values=(book_name[0][0]  , book_name[0][1] , book_name[0][2]  , book_name[0][4]  , self.temporary_amount))
         self.amount_incured_label.config(text="Amount Incured || " + str(self.amount_count))
 
-        
+    
+    def notification_button_clicked(self):
+        self.user_dashboard.update()
+        x1, y1 = self.notification_button.winfo_rootx(),self.notification_button.winfo_rooty()
+        print(x1 , y1)
+
    
     
     def defining_upper_controls(self):
@@ -122,10 +127,9 @@ class Userdashboard():
         self.upper_frame = Frame(self.user_dashboard , bg='white')
         self.middle_frame  = Frame(self.user_dashboard , bg='white')
         self.lower_frame  = Frame(self.user_dashboard , bg='white')
-
         # Label and Buttons etc for the upper controls
         self.username_label = Label(self.upper_frame , text="Welcome || " + self.current_user_username , bg='white')
-        self.notification_button   = Button(self.upper_frame , image=self.notification_none , width=20 , height=20 , border=0 , bg='white')
+        self.notification_button   = Button(self.upper_frame , image=self.notification_none , width=20 , height=20 , border=0 , bg='white' , command=self.notification_button_clicked)
         self.books_taken_label  = Label(self.upper_frame , text="Books Taken || " + str(self.book_count) , bg='white')
         self.amount_incured_label  = Label (self.upper_frame , text="Amount Incured || " + str(self.amount_count) , bg='white')
 
