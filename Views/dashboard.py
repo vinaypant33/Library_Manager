@@ -31,6 +31,10 @@ class Userdashboard():
         self.available_books_to_take_list  = []
         self.temp_books_taken_by_user = []
         self.book_taken_by_user_list = []
+        
+        
+        self.notification_string  = book_raw_details[2]
+        
 
         # Defining the notificaton images 
         self.notification_open = PhotoImage(file = r"Views\notification_open.png")
@@ -104,7 +108,6 @@ class Userdashboard():
         except:
             pass
         
-    
     def adding_current_rendted_book(self, book_name):
         self.book_count+=1
         # Calling updaeting controls for the current update 
@@ -114,14 +117,20 @@ class Userdashboard():
         self.table.insert('' ,'end' , text="1" , values=(book_name[0][0]  , book_name[0][1] , book_name[0][2]  , book_name[0][4]  , self.temporary_amount))
         self.amount_incured_label.config(text="Amount Incured || " + str(self.amount_count))
 
-    
     def notification_button_clicked(self):
-        self.user_dashboard.update()
+        # self.user_dashboard.update()
         x1, y1 = self.notification_button.winfo_rootx(),self.notification_button.winfo_rooty()
-        print(x1 , y1)
-
-   
-    
+        # pub.sendMessage("call_notification", window_axes  = str(x1) +   "," + str(y1))
+        if self.notification_string == 'None' or self.notification_string == "":
+            pass
+        else:
+            messagebox.showinfo("Library Manager" , self.notification_string)
+            self.notification_string = "None"
+            self.notification_button.config(image=self.notification_none)
+            pub.sendMessage("button_clicked" , username = self.current_user_username)
+        
+        
+        
     def defining_upper_controls(self):
         # Frames for diff controls
         self.upper_frame = Frame(self.user_dashboard , bg='white')
@@ -129,7 +138,11 @@ class Userdashboard():
         self.lower_frame  = Frame(self.user_dashboard , bg='white')
         # Label and Buttons etc for the upper controls
         self.username_label = Label(self.upper_frame , text="Welcome || " + self.current_user_username , bg='white')
-        self.notification_button   = Button(self.upper_frame , image=self.notification_none , width=20 , height=20 , border=0 , bg='white' , command=self.notification_button_clicked)
+        if self.notification_string == 'None'or self.notification_string == "":
+            print(self.notification_string)
+            self.notification_button   = Button(self.upper_frame , image=self.notification_none , width=20 , height=20 , border=0 , bg='white' , command=self.notification_button_clicked)
+        else:
+            self.notification_button   = Button(self.upper_frame , image=self.notification_open , width=20 , height=20 , border=0 , bg='white' , command=self.notification_button_clicked)
         self.books_taken_label  = Label(self.upper_frame , text="Books Taken || " + str(self.book_count) , bg='white')
         self.amount_incured_label  = Label (self.upper_frame , text="Amount Incured || " + str(self.amount_count) , bg='white')
 
@@ -227,7 +240,6 @@ class Userdashboard():
         self.rent_btn.bind("<Enter>" , self.rent_btn_hover)
         self.rent_btn.bind("<Leave>" , self.rent_btn_leave)
 
-
     def starting_app(self):
         self.filling_treeview()
         self.user_dashboard.mainloop()
@@ -242,7 +254,7 @@ class librariandashboard():
         self.librarian_dashboard.geometry("1100x600")
         self.librarian_dashboard.configure(bg='white')
         self.librarian_dashboard.iconbitmap(r"Views\app_icon.ico")
-        
+        self.librarian_dashboard.state('zoomed')
         self.myusername  = username
         # usernames the books and other bookkrelated data will be saved here usign the list 
         self.received_raw_user_details  = usernames

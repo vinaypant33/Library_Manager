@@ -78,4 +78,14 @@ def return_book(book_name):
     saving_details()
     c.execute('UPDATE books SET rented_user = NULL WHERE book_name = "%s";' %(book_name))
     saving_details()
+    
+# Function to check the notification string from the database
+def check_notification(username):
+    c.execute('SELECT * FROM users WHERE username = "%s";' %(username))
+    list = c.fetchall()
+    return(list[0][4])
+    
+def clearing_notification(username):
+    c.execute('UPDATE users SET notification = NULL WHERE username = "%s";' %(username))
+    saving_details()
 

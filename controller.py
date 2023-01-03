@@ -6,7 +6,8 @@ from tkinter import messagebox
 # Importing defined Modules
 from Views import loginandregister
 from Models import database
-from Views import dashboard
+from Views import dashboard , message_center
+
 
 
 ## calling the controls for the views functions``
@@ -44,10 +45,10 @@ def calling_librarian_dashboard(username , user_details):
     librarian_dashboard.defining_lower_controls()
     librarian_dashboard.placing_controls()
 
-def calling_user_dashboard(username , taken_books , available_books):
+def calling_user_dashboard(username , taken_books , available_books , notification_string):
     global user_dashboard
     # Send the user_name password and the required book details in this format
-    user_dashboard  = dashboard.Userdashboard(username , taken_books ,available_books)
+    user_dashboard  = dashboard.Userdashboard(username , taken_books ,available_books , notification_string)
     user_dashboard.defining_upper_controls()
     user_dashboard.defining_middle_controls_rentbook()
     user_dashboard.defining_middle_controls_returnbook()
@@ -71,8 +72,10 @@ def check_login_credentials(login_data):
     elif returned_data == 'user':
         taken_books = database.get_book_details(username)
         available_books  = database.available_book_details()
+        # Getting the notification String 
+        notification_string = database.check_notification(username)
         loginform.killing_app()
-        calling_user_dashboard(username , taken_books, available_books)
+        calling_user_dashboard(username , taken_books, available_books , notification_string)
 
 
 def registering_new_user(register_data):
@@ -102,10 +105,24 @@ def renting_book(book_details):
     book_name  = book_details.split(",")[1]
     returned_rented_book = database.rent_book(username , book_name)
     user_dashboard.adding_current_rendted_book(returned_rented_book)
-    
+
+# Calling notification button and setting up the screen
 def returning_book(returned_book):
     database.return_book(returned_book)
 
+
+# Obselete function to be checked later
+def calling_notification(username):
+    # x = window_axes.split(",")[0]
+    # y = window_axes.split(",")[1]
+    # x = int(x)
+    # y = int(y)
+    # print(x)
+    # print(y)
+    # message_string  = message_center.Message_box(x , y)
+    # message_string.running_app()
+    database.clearing_notification(username)
+    
 # Use for the pubsub for the diff functions
 pub.subscribe(check_login_credentials , "login_data")
 pub.subscribe(calling_register ,"register_clicked")
@@ -117,6 +134,9 @@ pub.subscribe(calling_login_indifectly, "login_clicked")
 pub.subscribe(saving_book_details , "book_details_Save")
 pub.subscribe(renting_book , "rent_book")
 pub.subscribe(returning_book , "returned_book")
+# pub.subscribe(calling_notification, "call_notification")
+pub.subscribe(calling_notification , "button_clicked")
+
 
 if __name__ == '__main__':
     calling_login()
