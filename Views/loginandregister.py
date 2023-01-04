@@ -26,8 +26,6 @@ class LoginScreen():
         self.loginscreen.configure(bg='white')
         self.loginscreen.eval('tk::PlaceWindow . center')
         # Setting controls for the main window 
-        
-
         # Calling the functions for setting and 
         # self.defining_controls()
         # self.placing_controls()

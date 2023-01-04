@@ -1,30 +1,27 @@
 from tkinter import *
 
 
-
-
-
-
-
-
 class Message_box():
 
-    def __init__(self) -> None:
+    def __init__(self , window_x , window_y) -> None:
         self.messagebox  =Tk()
         # self.messagebox.title("Library Manager - Notification")
-        self.messagebox.geometry("300x300+300+300")
+        self.x = window_x + 10
+        self.y = window_y + 10
+        self.messagebox.geometry("300x100+%d+%d" %(self.x , self.y))
         self.messagebox.overrideredirect(True)
+        self.messagebox.config(bg='white')
 
 
     def running_app(self):
-        self.messagebox_label = Message(text="hello world this is an amazing day tpday adn i have been working for the main character sfor the main series in the meantime ")
+        self.messagebox_label = Message(text="Lorem ipsum dolor sit amet, consectetur adipiscing eland this has to be donefor the  main part in the eantine " , bg='white')
         self.messagebox_label.config(width=290 , padx=10 , pady=10)
         self.messagebox_label.pack()
-        self.destroy_btn  = Button(self.messagebox , text="Close Notification" , width=30 , command=lambda : self.messagebox.destroy()).pack()
+        self.destroy_btn  = Button(self.messagebox , text="Close Notification" , width=30 ,bg='white' , command=lambda : self.messagebox.destroy()).pack()
         self.messagebox.mainloop()
 
 
 
-
-name = Message_box()
-name.running_app()
+if __name__ == '__main__':
+    name  = Message_box(10, 10)
+    name.running_app()
