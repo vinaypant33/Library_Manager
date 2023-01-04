@@ -236,12 +236,18 @@ class Userdashboard():
 """ Ui for the librarian Dashboard  """
 class librariandashboard():
 
-    def __init__(self, username , usernames ) -> None:
+    def __init__(self, username , usernames , available_books ) -> None:
         self.librarian_dashboard = Tk()
         self.librarian_dashboard.title("Library Manager - Librarian")
         self.librarian_dashboard.geometry("1100x600")
         self.librarian_dashboard.configure(bg='white')
         self.librarian_dashboard.iconbitmap(r"Views\app_icon.ico")
+        
+        self.available_book_list_fetched  = []
+        self.available_books_make = []
+
+        self.available_book_list_fetched = available_books
+
         
         self.myusername  = username
         # usernames the books and other bookkrelated data will be saved here usign the list 
@@ -249,19 +255,39 @@ class librariandashboard():
         self.user_details  = [] 
         
         self.setting_user_details()
-    
-    
-    # place to define the functions to be called for setting the usernames and  other user details
+        
+    # place to define the functions to be called for setting the usernames books and other user details
     def setting_user_details(self):
         for names in self.received_raw_user_details:
             self.user_details.append(names[0])
-        
         self.usernames = StringVar()
         self.usernames.set("Choose user :")
         self.getusername_for_contactdetails   = StringVar()
         self.getusername_for_contactdetails.set("Select Username")
 
+        self.message_usernames = StringVar()
+        self.message_usernames.set("Select User for notification : ")
+        # Setting the book name to be sent to the main book options box
+        self.book_data = StringVar()
+        self.book_data.set("Choose book to add :")
+        for book_name in self.available_book_list_fetched:
+            self.available_books_make.append(book_name[0])
+            
+    def add_book_btn_clicked(self):
+        self.chosen_book_name = self.book_data.get()
+        self.chosen_user_name  =self.usernames.get()
+        # Check the username and the book_name
+        if self.chosen_book_name == "Choose book to add :":
+            pass
+        elif self.chosen_user_name == "Choose user :":
+            pass
+        else:
+            pub.sendMessage("add_book_to_the_user"  , book_and_username = self.chosen_book_name + ","  + self.chosen_user_name)
 
+
+        
+
+    
     def defining_upper_controls(self):
          # Frames for diff controls
         self.upper_frame = Frame(self.librarian_dashboard , bg='white')
@@ -297,10 +323,18 @@ class librariandashboard():
 
     # Defining functions for different button Clicks 
     def notification_button_click(self):
+       
+        self.current_username  = self.message_usernames.get()
+        if self.current_username == "Select User for notification :":
+            pass
+        else:
+            pub.sendMessage("notification_alert"  , username_message = self.current_username + "," + self.sendmessage.get())
+        # pub.sendMessage("user_notification" , )
         self.sendmessage.delete(0 , "end")
         self.sendmessage.insert(0  ,"Enter Notification message for user :")
         self.sendmessage.configure(fg='grey')
         self.librarian_dashboard.focus()
+       
 
     def add_book_todatabaseclick(self):
         # Getting the book details and sharing the same 
@@ -336,14 +370,8 @@ class librariandashboard():
         self.amount_incured = Label(self.total_amount , text="Amount Incured | 3000")
         
         # Controls to add the book to any user
-        """ Temporary function after will be controlled using a function and strign var will only be defined here"""
-        self.book_data = StringVar()
-        self.book_data.set("Choose book to add :")
-
-        self.available_books  = ['book1' , 'book2' , 'book3']
-        self.available_books_list  = OptionMenu(self.lowerframe , self.book_data , *self.available_books)
-        self.setbook = Button(self.lowerframe ,text="Add Book to User" )
-        
+        self.available_books_list  = OptionMenu(self.lowerframe , self.book_data , *self.available_books_make)
+        self.setbook = Button(self.lowerframe ,text="Add Book to User" , command =self.add_book_btn_clicked )
         self.usernames_option = OptionMenu(self.lowerframe , self.usernames , *self.user_details )
 
         # second user select for the returning book : 
@@ -358,8 +386,7 @@ class librariandashboard():
         self.sendmessage.insert(0 , "Enter Notification message for user :")
         self.sendmessage.bind("<FocusIn>" , self.messageboxfocus)
 
-        self.message_usernames = StringVar()
-        self.message_usernames.set("User for notification : ")
+       
 
         self.username_for_message = OptionMenu(self.lowerframe , self.message_usernames , *self.user_details )
         self.sendmessagebtn = Button(self.lowerframe , text="Send Notification" , command=self.notification_button_click)

@@ -79,3 +79,6 @@ def return_book(book_name):
     c.execute('UPDATE books SET rented_user = NULL WHERE book_name = "%s";' %(book_name))
     saving_details()
 
+def setting_notification(username ,  text_message):
+    c.execute('UPDATE users SET notification = "%s" WHERE username ="%s";' %(text_message, username))
+    saving_details()

@@ -36,9 +36,9 @@ def calling_forgotscreen():
     forgotscreen.placing_controls()
     
 
-def calling_librarian_dashboard(username , user_details):
+def calling_librarian_dashboard(username , user_details , available_books):
     global librarian_dashboard 
-    librarian_dashboard  = dashboard.librariandashboard(username , user_details)
+    librarian_dashboard  = dashboard.librariandashboard(username , user_details , available_books)
     librarian_dashboard.defining_upper_controls()
     librarian_dashboard.defining_middle_controls()
     librarian_dashboard.defining_lower_controls()
@@ -64,13 +64,13 @@ def check_login_credentials(login_data):
         messagebox.showerror("Library Manager" , "Wrong Username or Password")
     elif returned_data == 'librarian':
         loginform.killing_app()
-        book_to_take  = database.get_book_details(username)
+        book_to_take  = database.available_book_details()
         available_books  = database.available_book_details()
         user_details  = database.get_usernames()
-        calling_librarian_dashboard(username , user_details)
+        calling_librarian_dashboard(username , user_details , book_to_take)
     elif returned_data == 'user':
         taken_books = database.get_book_details(username)
-        available_books  = database.available_book_details()
+        available_books  = database.available_book_details()    
         loginform.killing_app()
         calling_user_dashboard(username , taken_books, available_books)
 
@@ -106,6 +106,16 @@ def renting_book(book_details):
 def returning_book(returned_book):
     database.return_book(returned_book)
 
+def renting_book_to_the_user(book_and_username):
+    bookname  = book_and_username.split(",")[0]
+    username  = book_and_username.split(",")[1]
+    database.rent_book(username , bookname)
+
+def sending_notification(username_message):
+    username = username_message.split(",")[0]
+    text_data  = username_message.split(",")[1]
+    database.setting_notification(username , text_data)
+
 # Use for the pubsub for the diff functions
 pub.subscribe(check_login_credentials , "login_data")
 pub.subscribe(calling_register ,"register_clicked")
@@ -117,6 +127,11 @@ pub.subscribe(calling_login_indifectly, "login_clicked")
 pub.subscribe(saving_book_details , "book_details_Save")
 pub.subscribe(renting_book , "rent_book")
 pub.subscribe(returning_book , "returned_book")
+pub.subscribe(renting_book_to_the_user , "add_book_to_the_user")
+pub.subscribe(sending_notification , "notification_alert")
+
+
+
 
 if __name__ == '__main__':
     calling_login()
