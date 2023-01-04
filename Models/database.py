@@ -92,3 +92,5 @@ def clearing_notification(username):
 def setting_notification(username ,  text_message):
     c.execute('UPDATE users SET notification = "%s" WHERE username ="%s";' %(text_message, username))
     saving_details()
+    
+

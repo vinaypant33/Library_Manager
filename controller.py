@@ -1,19 +1,15 @@
 # Importing premade modules
 from pubsub import pub
 from tkinter import messagebox
-
-
 # Importing defined Modules
 from Views import loginandregister
 from Models import database
 from Views import dashboard , message_center
-
-
-
+from Views import user_details
 ## calling the controls for the views functions``
 def calling_login():
     try :
-        register.kill_register()    
+        register.kill_register()        
         forgotscreen.killing_app()
     except:
         print("Error Occured")
@@ -36,7 +32,6 @@ def calling_forgotscreen():
     forgotscreen.defining_controls()
     forgotscreen.placing_controls()
     
-
 def calling_librarian_dashboard(username , user_details , available_books):
     global librarian_dashboard 
     librarian_dashboard  = dashboard.librariandashboard(username , user_details , available_books)
@@ -71,16 +66,12 @@ def check_login_credentials(login_data):
         calling_librarian_dashboard(username , user_details , book_to_take)
     elif returned_data == 'user':
         taken_books = database.get_book_details(username)
-<<<<<<< HEAD
         available_books  = database.available_book_details()    
-=======
         available_books  = database.available_book_details()
         # Getting the notification String 
         notification_string = database.check_notification(username)
->>>>>>> ea613fac1f0d817d0dc6ea876ae1cebb4c4b5ced
         loginform.killing_app()
         calling_user_dashboard(username , taken_books, available_books , notification_string)
-
 
 def registering_new_user(register_data):
     username  = register_data.split(",")[0]
@@ -114,7 +105,6 @@ def renting_book(book_details):
 def returning_book(returned_book):
     database.return_book(returned_book)
 
-<<<<<<< HEAD
 def renting_book_to_the_user(book_and_username):
     bookname  = book_and_username.split(",")[0]
     username  = book_and_username.split(",")[1]
@@ -124,8 +114,6 @@ def sending_notification(username_message):
     username = username_message.split(",")[0]
     text_data  = username_message.split(",")[1]
     database.setting_notification(username , text_data)
-
-=======
 
 # Obselete function to be checked later
 def calling_notification(username):
@@ -139,7 +127,12 @@ def calling_notification(username):
     # message_string.running_app()
     database.clearing_notification(username)
     
->>>>>>> ea613fac1f0d817d0dc6ea876ae1cebb4c4b5ced
+def getting_details(username):
+    taken_books = database.get_book_details(username)
+    global user_details_for_message
+    user_details_for_message  = user_details.User_details(taken_books)
+    user_details_for_message.defining_controls()
+
 # Use for the pubsub for the diff functions
 pub.subscribe(check_login_credentials , "login_data")
 pub.subscribe(calling_register ,"register_clicked")
@@ -149,20 +142,19 @@ pub.subscribe(calling_login , "show_login")
 pub.subscribe(reteriving_user_password , "reterive_password")
 pub.subscribe(calling_login_indifectly, "login_clicked")
 pub.subscribe(saving_book_details , "book_details_Save")
-pub.subscribe(renting_book , "rent_book")
+pub.subscribe(renting_book , "rent_book")   
 pub.subscribe(returning_book , "returned_book")
-<<<<<<< HEAD
 pub.subscribe(renting_book_to_the_user , "add_book_to_the_user")
 pub.subscribe(sending_notification , "notification_alert")
-
-
-=======
 # pub.subscribe(calling_notification, "call_notification")
 pub.subscribe(calling_notification , "button_clicked")
->>>>>>> ea613fac1f0d817d0dc6ea876ae1cebb4c4b5ced
 
+# """" Temp function to check the messagebox and make the form appear"""
+# def call_message():
+#     name  = message_center.Message_box(100,100)
+#     name.running_app()
+pub.subscribe(getting_details , "Done")
 
 if __name__ == '__main__':
     calling_login()
     """Here we will be calculating the total amount incured and will be saving it in the database"""
-    

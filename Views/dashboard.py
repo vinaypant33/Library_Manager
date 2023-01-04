@@ -254,17 +254,10 @@ class librariandashboard():
         self.librarian_dashboard.geometry("1100x600")
         self.librarian_dashboard.configure(bg='white')
         self.librarian_dashboard.iconbitmap(r"Views\app_icon.ico")
-<<<<<<< HEAD
-        
         self.available_book_list_fetched  = []
         self.available_books_make = []
-
         self.available_book_list_fetched = available_books
-
-        
-=======
         self.librarian_dashboard.state('zoomed')
->>>>>>> ea613fac1f0d817d0dc6ea876ae1cebb4c4b5ced
         self.myusername  = username
         # usernames the books and other bookkrelated data will be saved here usign the list 
         self.received_raw_user_details  = usernames
@@ -299,10 +292,7 @@ class librariandashboard():
             pass
         else:
             pub.sendMessage("add_book_to_the_user"  , book_and_username = self.chosen_book_name + ","  + self.chosen_user_name)
-
-
-        
-
+            messagebox.showinfo("Library Manager" , self.chosen_book_name + " is added to " + self.chosen_user_name)
     
     def defining_upper_controls(self):
          # Frames for diff controls
@@ -339,7 +329,6 @@ class librariandashboard():
 
     # Defining functions for different button Clicks 
     def notification_button_click(self):
-       
         self.current_username  = self.message_usernames.get()
         if self.current_username == "Select User for notification :":
             pass
@@ -350,7 +339,20 @@ class librariandashboard():
         self.sendmessage.insert(0  ,"Enter Notification message for user :")
         self.sendmessage.configure(fg='grey')
         self.librarian_dashboard.focus()
-       
+        self.message_usernames.set("Select User for notification :")
+    
+    """ Function to check the user name and get the details for the overdue books and  total amount incured for the current user """
+    def get_user_details(self):
+        # print(self.getusername_for_contactdetails.get())
+        pub.sendMessage("Done",username = self.getusername_for_contactdetails.get())
+        
+    def showing_user_details(self , *library_details):
+        self.taken_books_list_for_messages = []
+        for book_name  in library_details:
+            self.taken_books_list_for_messages.append(book_name[0])
+        # messagebox.showinfo("Library Manager" , library_details)
+        for book in self.taken_books_list_for_messages:
+            print(book)
 
     def add_book_todatabaseclick(self):
         # Getting the book details and sharing the same 
@@ -394,8 +396,8 @@ class librariandashboard():
         self.return_book_data =StringVar()
         self.return_book_data.set("Choose book to return")
         self.return_books = ["asdf" , "asdfasdf" , "dasfafasdf", "4563456"]
-        self.return_books_list = OptionMenu(self.lowerframe , self.return_book_data , *self.return_books)
-        self.returnbook_btn = Button(self.lowerframe , text="Return Selected Book")
+        # self.return_books_list = OptionMenu(self.lowerframe , self.return_book_data , *self.return_books)
+        # self.returnbook_btn = Button(self.lowerframe , text="Return Selected Book")
 
         # Controls to send message to the user 
         self.sendmessage  =Entry(self.sendmessageframe , fg='gray' , width=50)
@@ -432,7 +434,7 @@ class librariandashboard():
         """ Here also the username will be contrlled using the function and only stringvar will be here"""
       
         self.username_for_contact = OptionMenu(self.getdetailsframe , self.getusername_for_contactdetails , *self.user_details)
-        self.usernamegetbtn = Button(self.getdetailsframe , text="Get User Details")
+        self.usernamegetbtn = Button(self.getdetailsframe , text="Get User Details" , command=self.get_user_details)
         
   
     
@@ -460,8 +462,8 @@ class librariandashboard():
         self.setbook.pack(side='left' , padx=10)
 
         # placing control for return book data 
-        self.return_books_list.pack(side='left' , padx=5)
-        self.returnbook_btn.pack(side='left' , padx=5)
+        # self.return_books_list.pack(side='left' , padx=5)
+        # self.returnbook_btn.pack(side='left' , padx=5)
 
         # Placing send message frames
         self.sendmessagebtn.pack(side='right' ,pady =2 ,padx=2)

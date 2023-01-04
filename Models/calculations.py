@@ -1,5 +1,5 @@
 """ Will only be used for the price calculation and won't access the database directly """
-# Importin the  files for further working
+# Importing the files for further working 
 
 import sqlite3
 import time

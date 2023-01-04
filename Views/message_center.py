@@ -14,7 +14,7 @@ class Message_box():
 
 
     def running_app(self):
-        self.messagebox_label = Message(text="Lorem ipsum dolor sit amet, consectetur adipiscing eland this has to be donefor the  main part in the eantine " , bg='white')
+        self.messagebox_label = Message(self.messagebox , text="Lorem ipsum dolor sit amet, consectetur adipiscing eland this has to be donefor the  main part in the eantine " , bg='white')
         self.messagebox_label.config(width=290 , padx=10 , pady=10)
         self.messagebox_label.pack()
         self.destroy_btn  = Button(self.messagebox , text="Close Notification" , width=30 ,bg='white' , command=lambda : self.messagebox.destroy()).pack()
