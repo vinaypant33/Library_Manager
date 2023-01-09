@@ -77,7 +77,6 @@ class Userdashboard():
     
     # Defining functions for calling the code when the buttons are clicked 
     def renting_book_through_rentbtn(self):
-
         try:
             # print(self.books_taken_string.get())  This will be sent for the database
             self.book_name_to_rent  = self.books_taken_string.get()
@@ -88,6 +87,7 @@ class Userdashboard():
                 self.books_to_take_options['menu'].delete(self.book_name_to_rent)
                 self.books_taken_string.set("Select Book to Rent")
                 self.available_books_to_take_list.remove(self.book_name_to_rent)
+                messagebox.showinfo("Library Manager" , "Added Book : " + self.book_name_to_rent)
         except:
             pass
 
@@ -104,7 +104,9 @@ class Userdashboard():
         self.available_books_to_take_list.append(returned_book_name)
         self.updating_options_box()
         try:
+            messagebox.showinfo("Library Manager" , "Book deleted from the database")
             self.table.delete(self.table.delete(selected_item))
+            
         except:
             pass
         
@@ -121,7 +123,7 @@ class Userdashboard():
         # self.user_dashboard.update()
         x1, y1 = self.notification_button.winfo_rootx(),self.notification_button.winfo_rooty()
         # pub.sendMessage("call_notification", window_axes  = str(x1) +   "," + str(y1))
-        if self.notification_string == 'None' or self.notification_string == "":
+        if self.notification_string == 'None' or self.notification_string == "" or self.notification_string == ' ':
             pass
         else:
             messagebox.showinfo("Library Manager" , self.notification_string)
@@ -138,11 +140,13 @@ class Userdashboard():
         self.lower_frame  = Frame(self.user_dashboard , bg='white')
         # Label and Buttons etc for the upper controls
         self.username_label = Label(self.upper_frame , text="Welcome || " + self.current_user_username , bg='white')
-        if self.notification_string == 'None'or self.notification_string == "":
+        if self.notification_string == 'None'or self.notification_string == '' or self.notification_string == ' ':
             print(self.notification_string)
             self.notification_button   = Button(self.upper_frame , image=self.notification_none , width=20 , height=20 , border=0 , bg='white' , command=self.notification_button_clicked)
+        # elif len(self.notification_string) > 0:
+        #     self.notification_button   = Button(self.upper_frame , image=self.notification_open , width=20 , height=20 , border=0 , bg='white' , command=self.notification_button_clicked)
         else:
-            self.notification_button   = Button(self.upper_frame , image=self.notification_open , width=20 , height=20 , border=0 , bg='white' , command=self.notification_button_clicked)
+            self.notification_button   = Button(self.upper_frame , image=self.notification_none , width=20 , height=20 , border=0 , bg='white' , command=self.notification_button_clicked)
         self.books_taken_label  = Label(self.upper_frame , text="Books Taken || " + str(self.book_count) , bg='white')
         self.amount_incured_label  = Label (self.upper_frame , text="Amount Incured || " + str(self.amount_count) , bg='white')
 
@@ -334,6 +338,7 @@ class librariandashboard():
             pass
         else:
             pub.sendMessage("notification_alert"  , username_message = self.current_username + "," + self.sendmessage.get())
+            messagebox.showinfo("Library Manager" , "Notification sent to : " + self.current_username)
         # pub.sendMessage("user_notification" , )
         self.sendmessage.delete(0 , "end")
         self.sendmessage.insert(0  ,"Enter Notification message for user :")
@@ -347,9 +352,11 @@ class librariandashboard():
         pub.sendMessage("Done",username = self.getusername_for_contactdetails.get())
         
     def showing_user_details(self , *library_details):
+        messagebox.showinfo("I am cliced to show the details")
+        print(library_details)
         self.taken_books_list_for_messages = []
         for book_name  in library_details:
-            self.taken_books_list_for_messages.append(book_name[0])
+            self.taken_books_list_for_messages.append(book_name)
         # messagebox.showinfo("Library Manager" , library_details)
         for book in self.taken_books_list_for_messages:
             print(book)
@@ -376,16 +383,16 @@ class librariandashboard():
     def defining_middle_controls(self):
         # Middle Frame Controls 
         self.numberofusers = Frame(self.middle_frame , height=100 , width=100   , padx=40, pady=20)
-        self.users_text = Label(self.numberofusers , text="Total Users | 22")
+        self.users_text = Label(self.numberofusers , text="Total Users | 9")
         self.numberofbooks = Frame(self.middle_frame , height=100  , padx=40 , pady=20)
         # self.books_count  =Label(self.numberofbooks , height=20 , bg='blue' , padx=20 , pady=20)
-        self.books_count  =Label(self.numberofbooks , text="Total Books | 300")
+        self.books_count  =Label(self.numberofbooks , text="Total Books | 22")
         self.borrowedbooks  =Frame(self.middle_frame , height=100 , padx=40 , pady=20)
-        self.borrowedbooks_count  = Label(self.borrowedbooks , text="Borrowed Books | 100")
+        self.borrowedbooks_count  = Label(self.borrowedbooks , text="Borrowed Books | 16")
         self.overduebooks = Frame(self.middle_frame , height=100,  padx=40 , pady=20)
-        self.overduebooks_count = Label(self.overduebooks , text="Overdue Books | 50")
+        self.overduebooks_count = Label(self.overduebooks , text="Overdue Books | 6")
         self.total_amount = Frame(self.middle_frame , height=100 , width=100  , padx=40 , pady=20)
-        self.amount_incured = Label(self.total_amount , text="Amount Incured | 3000")
+        self.amount_incured = Label(self.total_amount , text="Amount Incured | 350")
         
         # Controls to add the book to any user
         self.available_books_list  = OptionMenu(self.lowerframe , self.book_data , *self.available_books_make)

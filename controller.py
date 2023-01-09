@@ -5,7 +5,7 @@ from tkinter import messagebox
 from Views import loginandregister
 from Models import database
 from Views import dashboard , message_center
-from Views import user_details
+from Views import user_details_dashboard
 ## calling the controls for the views functions``
 def calling_login():
     try :
@@ -126,11 +126,12 @@ def calling_notification(username):
     # message_string  = message_center.Message_box(x , y)
     # message_string.running_app()
     database.clearing_notification(username)
-    
+
+
 def getting_details(username):
     taken_books = database.get_book_details(username)
     global user_details_for_message
-    user_details_for_message  = user_details.User_details(taken_books)
+    user_details_for_message  = user_details_dashboard.User_details(taken_books)
     user_details_for_message.defining_controls()
 
 # Use for the pubsub for the diff functions

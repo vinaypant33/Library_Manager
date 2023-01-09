@@ -21,7 +21,6 @@ class Message_box():
         self.messagebox.mainloop()
 
 
-
 if __name__ == '__main__':
     name  = Message_box(10, 10)
     name.running_app()

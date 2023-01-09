@@ -17,7 +17,9 @@ class User_details():
         self.temp_books_to_take = book_name
         # print(book_name)
         self.taken_book_details = []
-        for book_name in self.temp_books_to_take:
+        self.count = len(self.temp_books_to_take)
+        print(self.count)
+        for book_name in book_name:
             self.taken_book_details.append(book_name)
         
         
@@ -54,8 +56,8 @@ class User_details():
         self.table.heading("# 4", text="Rented Date")
         
         self.table.pack(fill=BOTH , expand=True)
-        for book_name in self.taken_book_details:
-              self.table.insert('' ,'end' , text="1" , values=(book_name[0][0]  , book_name[0][1] , book_name[0][2]  , book_name[0][4]))
+        for book_name in self.temp_books_to_take:
+              self.table.insert('' ,'end' , text="1" , values=(book_name[0][0], book_name[0][1] , book_name[0][2]  , book_name[0][4]))
         
         
         # Calling the main App
