@@ -296,6 +296,7 @@ class librariandashboard():
             pass
         else:
             pub.sendMessage("add_book_to_the_user"  , book_and_username = self.chosen_book_name + ","  + self.chosen_user_name)
+
             messagebox.showinfo("Library Manager" , self.chosen_book_name + " is added to " + self.chosen_user_name)
     
     def defining_upper_controls(self):
