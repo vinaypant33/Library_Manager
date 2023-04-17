@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-
-
 ## Importing from app made modules
 from colors import *
 
@@ -11,27 +9,29 @@ class Login_page():
     
 
     def __init__(self, master, width, height) -> None:
-        self.master  = tk.Tk()
-        self.app_width = width 
-        self.app_height  = height
-        self.current_height  = self.master.winfo_height()
-        self.current_width  = self.master.winfo_width()
-        self.current_location_x  = (self.app_width //2 ) - (self.current_width // 2)
-        self.current_location_y = (self.app_height //2 ) - (self.current_height //2)
-        self.master.configure(background=login_page_base)
-        self.master.geometry(f"{self.app_width}x{self.app_height}+{self.current_location_x}+{self.current_location_y}")
-        self.master.overrideredirect(True)
+        self.loginscreen  = tk.Tk()
+        self.loginscreen.overrideredirect(True)
+        self.screenheight  = self.loginscreen.winfo_screenheight()
+        self.screenwidth  = self.loginscreen.winfo_screenwidth()
+        self.height  =  height
+        self.width  = width
+        self.ycoordinate = (self.screenheight // 2) - (self.height //2 )
+        self.xcoordinate = (self.screenwidth //2 ) - (self.width //2 )
+        self.loginscreen.geometry(f"{self.width}x{self.height}+{self.xcoordinate}+{self.ycoordinate}")
+        self.loginscreen.configure(background='White')
 
     ## defining the app related initial functions here
-
     def defining_controls(self):
-        self.upper_control  = tk.Frame(self.master , background='Black')
+        # Upper Control
+        self.upper_control  = tk.Frame(self.loginscreen , background=login_page_base ,  height=20)
+        self.upper_control.pack_propagate(1)
+        # Base Controls : Login icon 
+        
 
     def placing_controls(self):
 
-
-        self.upper_control.pack()
-        self.master.mainloop()
+        self.upper_control.pack(side='top' , fill='x')
+        self.loginscreen.mainloop()
 
 
 
