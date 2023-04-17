@@ -21,16 +21,24 @@ class Login_page():
         self.loginscreen.configure(background='White')
 
     ## defining the app related initial functions here
+
+    def closing_app(self):
+        self.loginscreen.destroy()
+
+
     def defining_controls(self):
         # Upper Control
         self.upper_control  = tk.Frame(self.loginscreen , background=login_page_base ,  height=20)
         self.upper_control.pack_propagate(1)
         # Base Controls : Login icon 
-        
+        self.closing_button  = tk.Button(self.upper_control , text="X" , background=red_color , command=self.closing_app)
 
     def placing_controls(self):
-
+        ## Placing the upper controls for the closing button 
         self.upper_control.pack(side='top' , fill='x')
+        ## Placing the closing button 
+        self.closing_button.pack(side='right' , padx=5)
+
         self.loginscreen.mainloop()
 
 
