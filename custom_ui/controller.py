@@ -80,8 +80,6 @@ def calling_register_page(register_data ):
 def renting_book(book_details):
     username =  book_details.split(',')[0]
     book_name  = book_details.split(',')[1]
-    print(username)
-    print(book_name)
     returned_book  = database.rent_book(username  = username  , book_name= book_name)
     user_dashboard.taken_books_user.append(returned_book[0][0])
     user_dashboard.taken_books_table.append(returned_book[0])

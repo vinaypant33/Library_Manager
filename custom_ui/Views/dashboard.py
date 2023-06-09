@@ -29,31 +29,29 @@ class Dashboard():
         self.user_details  = user_details
         self.books_to_take  = book_to_take
         self.books_taken  = 0
-        print(book_to_take)
+        self.total_books  = 0
+        ## List for the  available for the available books and the current users
+        self.available_books = []
+        self.current_users  = []
+        self.current_users_2 = []
 
 
         ## Operating the data on user details and books to take 
         for user in self.user_details:
             self.number_of_users+=1
-
+            self.current_users.append(user[0])
+            self.current_users_2.append(user[0])
+        
+        
+        ## Adding the dummy data for the books which will be replaed by the database later 
+        for books in book_to_take:
+            self.available_books.append(books[0])
+            self.total_books+=1
 
         
-    ## List for the  available for the available books and the current users
-        self.available_books = []
-        self.current_users  = []
-        self.current_users_2 = []
+    
 
-    ## Adding the dummy data for the books which will be replaed by the database later 
-        self.available_books.append("Dummy Book -1 ")
-        self.available_books.append("Dummy Book -2")
-        self.available_books.append("Dummy Books - 3")
-        self.current_users.append("Dummy User -1 ")
-        self.current_users.append('Dummy User -2')
-        self.current_users.append('Dummy User -3')
-        self.current_users_2.append("User Dummy -1")
-        self.current_users_2.append("User Dummy -2")
-        self.current_users_2.append('User Dummy -3')
-
+ 
 
     ## defining the stringvar for the opetion menu or the combobox or the  bootstrap combobox 
         self.cb  = tk.StringVar()
@@ -78,11 +76,11 @@ class Dashboard():
         self.new_y  = self.dashboard.winfo_y() + self.delta_y
         self.dashboard.geometry(f"{self.width}x{self.height}+{self.new_x}+{self.new_y}")
 
+   
 
 
     def defining_controls(self):
-        import colors
-        import styles
+    
         self.titlebar  = tk.Frame(self.dashboard)
         self.titlebar.pack_propagate(1)
         self.close_btn   = tk.Button(self.titlebar , text=" X " , command=self.closing_app)
@@ -101,13 +99,13 @@ class Dashboard():
         self.total_users_text  = tk.Label(self.users_frame , text="Total Users" , background=colors.white_color , font=styles.super_small_font_bold , foreground=colors.login_button_color)
         self.total_users  = tk.Label(self.users_frame , text=self.number_of_users , font=styles.largest_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
         self.total_books_text = tk.Label(self.books_frame , text="Total Books" , background=colors.white_color , font=styles.super_small_font_bold , foreground=colors.login_button_color)
-        self.total_books  = tk.Label(self.books_frame , text="0" , font=styles.large_font_bold  , background=colors.white_color , foreground=colors.login_page_purple)
+        self.total_books  = tk.Label(self.books_frame , text=self.total_books , font=styles.largest_font_bold  , background=colors.white_color , foreground=colors.login_page_purple)
         self.borrowed_books_text = tk.Label(self.borrowed_books_frame , text="Borrowed Books" , background=colors.white_color , font=styles.super_small_font_bold , foreground=colors.login_button_color)
-        self.borrowed_books = tk.Label(self.borrowed_books_frame , text="0" ,font=styles.large_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
+        self.borrowed_books = tk.Label(self.borrowed_books_frame , text="0" ,font=styles.largest_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
         self.overdue_books_text  = tk.Label(self.overdue_books_frame , text="Overdue Books" , background=colors.white_color , font=styles.super_small_font_bold , foreground=colors.login_button_color)
-        self.overdue_books = tk.Label(self.overdue_books_frame , text="0" , font=styles.large_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
+        self.overdue_books = tk.Label(self.overdue_books_frame , text="0" , font=styles.largest_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
         self.amount_incured_text  =tk.Label(self.amount_incured_frame , text="Amount Incured" , background=colors.white_color ,font=styles.super_small_font_bold , foreground=colors.login_button_color )
-        self.amount_incured = tk.Label(self.amount_incured_frame , text="0" , font=styles.large_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
+        self.amount_incured = tk.Label(self.amount_incured_frame , text="0" , font=styles.largest_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
         ## Middle Controls  Example fo the ttk combobox 
         self.choose_book_combobox = ctk.CTkComboBox(self.middle_frame , values=self.available_books , variable=self.cb)
         self.choose_user_combobox  = ctk.CTkComboBox(self.middle_frame , values=self.current_users , variable=self.cu)
