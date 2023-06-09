@@ -89,7 +89,7 @@ def renting_book(book_details):
 
 def returning_book(returned_book):
     database.return_book(book_name=returned_book)
-
+ 
 ## Message Receiving from View Modules :  
 pub.subscribe(check_login_credentials , 'login_details')
 pub.subscribe(calling_register_page ,  'register_page_called')

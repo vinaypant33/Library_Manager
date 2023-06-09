@@ -28,6 +28,8 @@ class Dashboard():
         self.number_of_users  = 0
         self.user_details  = user_details
         self.books_to_take  = book_to_take
+        self.books_taken  = 0
+        print(book_to_take)
 
 
         ## Operating the data on user details and books to take 
