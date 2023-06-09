@@ -12,18 +12,13 @@ For suggestions, feedback, and project-related inquiries, please email me at vin
 Installation
 Clone the repository:
 
-shell
-Copy code
 git clone https://github.com/your-username/library-manager.git
 Change into the project directory:
 
-shell
-Copy code
 cd library-manager
+cd code_base # Select the folder depending which utility you wanna use
 Create and activate a virtual environment (optional but recommended):
 
-shell
-Copy code
 python3 -m venv venv  venv being the virtual environment.
 source venv/bin/activate
 Install the dependencies:
