@@ -13,6 +13,7 @@ small_font_bold  = ('Arial', 11 , 'bold')
 small_font  = ('Arial' , 10)
 super_small_font  = ('Arial' , 8)
 large_font_bold = ('Arial' , 28 , 'bold')
+largest_font_bold = ('Arial' , 36 , 'bold')
 super_small_font_bold = ('Arial' , 10 , 'bold')
 
 ## Defining class for the styles

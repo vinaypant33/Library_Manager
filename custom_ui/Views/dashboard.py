@@ -11,7 +11,7 @@ from dateutil import parser
 
 class Dashboard():
 
-    def __init__(self , width  , height) -> None:
+    def __init__(self , width  , height , user_details  , book_to_take) -> None:
         
      
         self.dashboard  = tk.Tk()
@@ -24,6 +24,18 @@ class Dashboard():
         self.dashboard.geometry(f'{self.width}x{self.height}+{self.x_coordinate}+{self.y_coordinate}')
         self.dashboard.overrideredirect(1)
         self.dashboard.configure(background=colors.white_color)
+        ## user Details and books list to take will be segrated here : user details contains number of users and their details
+        self.number_of_users  = 0
+        self.user_details  = user_details
+        self.books_to_take  = book_to_take
+
+
+        ## Operating the data on user details and books to take 
+        for user in self.user_details:
+            self.number_of_users+=1
+
+
+        
     ## List for the  available for the available books and the current users
         self.available_books = []
         self.current_users  = []
@@ -85,9 +97,9 @@ class Dashboard():
         ## Controls for the upper control : Labels
         ## Small font labels 
         self.total_users_text  = tk.Label(self.users_frame , text="Total Users" , background=colors.white_color , font=styles.super_small_font_bold , foreground=colors.login_button_color)
-        self.total_users  = tk.Label(self.users_frame , text="0" , font=styles.large_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
+        self.total_users  = tk.Label(self.users_frame , text=self.number_of_users , font=styles.largest_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
         self.total_books_text = tk.Label(self.books_frame , text="Total Books" , background=colors.white_color , font=styles.super_small_font_bold , foreground=colors.login_button_color)
-        self.total_books  = tk.Label(self.books_frame , text="0" , font=styles.large_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
+        self.total_books  = tk.Label(self.books_frame , text="0" , font=styles.large_font_bold  , background=colors.white_color , foreground=colors.login_page_purple)
         self.borrowed_books_text = tk.Label(self.borrowed_books_frame , text="Borrowed Books" , background=colors.white_color , font=styles.super_small_font_bold , foreground=colors.login_button_color)
         self.borrowed_books = tk.Label(self.borrowed_books_frame , text="0" ,font=styles.large_font_bold , background=colors.white_color , foreground=colors.login_page_purple)
         self.overdue_books_text  = tk.Label(self.overdue_books_frame , text="Overdue Books" , background=colors.white_color , font=styles.super_small_font_bold , foreground=colors.login_button_color)

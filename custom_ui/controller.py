@@ -32,7 +32,7 @@ def login_page_called_again(main_data):
 
 
 def calling_librarian_dashboard(username , user_details , book_to_take):
-    librarian_dashboard  = Dashboard(1200 , 500)
+    librarian_dashboard  = Dashboard(1200 , 500 , user_details=user_details , book_to_take=book_to_take)
     librarian_dashboard.defining_controls()
     librarian_dashboard.placing_controls()
 
