@@ -273,14 +273,7 @@ class User_Dashboard():
         self.available_books_user.remove(self.current_choice)
         self.books_combobox.destroy()
         # Make new combobox and pack the item again in the Frame with the new listbox 
-        self.books_combobox  = ctk.CTkComboBox(self.middle_frame , values=self.available_books_user, variable=self.cb , command=self.setting_current_value)
-        self.books_combobox.configure(button_color = colors.login_page_purple , border_color = colors.black_color , width = 200 , button_hover_color = colors.red_color , fg_color = colors.white_color , corner_radius  = 0,
-                                      border_width = 1 , dropdown_fg_color = colors.white_color) ## Command will be used to call the callback function
-        self.books_combobox.configure(variable  = self.cb)
-        self.books_combobox.set('')
-        self.books_combobox.set('Available Books')
-        ## Now Packing the combobox into the middle frame
-        self.books_combobox.place(x =130 , y =10)
+        self.updating_options_box()
         self.filling_treeview()
         # Sending the messagebox to rent the book to the current user 
         pub.sendMessage('add_book' , book_details  = self.username + ',' + self.current_choice)
@@ -291,34 +284,30 @@ class User_Dashboard():
         current_value = self.table .item(selected_item)['values'][4]
         self.amount_count-= current_value
         self.book_count-=1
-        print(returned_book_name)
+        self.updating_controls()
+        pub.sendMessage("returned_book" , returned_book =  returned_book_name) # Define a function to add the book back again in the database
+        self.available_books_user.append(returned_book_name)
+        self.updating_options_box()
+        try:
+            messagebox.showinfo("Library Manager" , "Deleting book from a database")
+            self.table.delete(self.table.delete(selected_item))
+        except:
+            pass
 
 
-    #  def returning_book_through_returnbtn(self):
-    #     selected_item = self.table.selection()[0]
-    #     returned_book_name  = self.table.item(selected_item)['values'][0]
-    #     current_value = self.table .item(selected_item)['values'][4]
-    #     self.amount_count-= current_value
-    #     self.book_count-=1
-    #     # Define the function to add the deleted book into the to take books
-    #     pub.sendMessage("returned_book" , returned_book =  returned_book_name) # Define a function to add the book back again in the database
-    #     self.updating_controls()
-    #     # Define function to delete the options box and add it again in the main screen
-    #     self.available_books_to_take_list.append(returned_book_name)
-    #     self.updating_options_box()
-    #     try:
-    #         messagebox.showinfo("Library Manager" , "Book deleted from the database")
-    #         self.table.delete(self.table.delete(selected_item))
-            
-    #     except:
-    #         pass
+    def updating_options_box(self):
+        self.books_combobox.destroy()
+        ## For now copying the code from the above function later will convert the common code to the seperate function : 
+        self.books_combobox  = ctk.CTkComboBox(self.middle_frame , values=self.available_books_user, variable=self.cb , command=self.setting_current_value)
+        self.books_combobox.configure(button_color = colors.login_page_purple , border_color = colors.black_color , width = 200 , button_hover_color = colors.red_color , fg_color = colors.white_color , corner_radius  = 0,
+                                      border_width = 1 , dropdown_fg_color = colors.white_color) ## Command will be used to call the callback function
+        self.books_combobox.configure(variable  = self.cb)
+        self.books_combobox.set('')
+        self.books_combobox.set('Available Books')
+        ## Now Packing the combobox into the middle frame
+        self.books_combobox.place(x =130 , y =10)
 
-
-
-
-    
     ## Change the code from here too and make the change in combbobox and delete the controls
-
     def defining_controls(self):
         ## Titlebar and  the closign button
         self.titlebar  = tk.Frame(self.user_dashboard , height=20 , background=colors.login_page_purple)

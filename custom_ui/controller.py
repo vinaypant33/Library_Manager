@@ -20,13 +20,21 @@ from pubsub import pub
 
 def login_page_called():
     global login
-    login = Login_page(300 , 400)
+    login = Login_page(300 , 450)
+    login.defining_controls()
+    login.placing_controls()
+
+def login_page_called_again(main_data):
+    global login
+    login = Login_page(300 , 450)
     login.defining_controls()
     login.placing_controls()
 
 
 def calling_librarian_dashboard(username , user_details , book_to_take):
-    print('Librarian Dashboard Called')
+    librarian_dashboard  = Dashboard(1200 , 500)
+    librarian_dashboard.defining_controls()
+    librarian_dashboard.placing_controls()
 
 def calling_user_dashboard(username , taken_books , available_books , notification_string = ""):
     global user_dashboard
@@ -59,10 +67,14 @@ def check_login_credentials(user_details):
 
 def calling_register_page(register_data ):
     global register_page_1
+    try:
+        login.closing_app()
+    except:
+        pass
     register_page_1   = Register_page(300 , 450)
     register_page_1.defining_controls()
     register_page_1.placing_controls()
-    login.closing_app()
+    
 
 
 def renting_book(book_details):
@@ -75,12 +87,15 @@ def renting_book(book_details):
     user_dashboard.taken_books_table.append(returned_book[0])
     user_dashboard.filling_treeview()
 
-
+def returning_book(returned_book):
+    database.return_book(book_name=returned_book)
 
 ## Message Receiving from View Modules :  
 pub.subscribe(check_login_credentials , 'login_details')
 pub.subscribe(calling_register_page ,  'register_page_called')
 pub.subscribe(renting_book , 'add_book')
+pub.subscribe(returning_book , 'returned_book')
+pub.subscribe(login_page_called_again, "register_page")
 
 
 if __name__ == '__main__':

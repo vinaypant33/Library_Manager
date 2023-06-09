@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-
+from pubsub import pub  
 from PIL import Image ,  ImageTk
 
 
@@ -37,6 +37,10 @@ class Register_page():
 
     def closing_app(self):
         self.register_page.destroy()
+
+    def calling_login_page(self , event):
+        print("I am called from the pressing button")
+        pub.sendMessage("register_page" , main_data = "register")
 
     ## Section for the control definition and placement
     def defining_controls(self):
@@ -78,6 +82,7 @@ class Register_page():
         self.title_bar.bind("<Enter>" , lambda event  : styles.tkinter_styles.change_color_on_hover(self, self.title_bar , colors.login_button_color))
         self.title_bar.bind("<Leave>" , lambda event  :  styles.tkinter_styles.change_color_on_hover(self, self.title_bar , color_name=colors.login_page_base))
         self.alreadyhaveanaccount.bind("<Enter>" , lambda event  :  styles.tkinter_styles.change_foreground_hover(self , self.alreadyhaveanaccount , colors.login_page_purple))
+        self.alreadyhaveanaccount.bind("<ButtonPress-1>" , self.calling_login_page)
         self.forgot_password.bind("<Enter>" , lambda event : styles.tkinter_styles.change_foreground_hover(self, self.forgot_password , colors.login_page_purple))
         self.alreadyhaveanaccount.bind("<Leave>" , lambda event  :  styles.tkinter_styles.change_foreground_hover(self, self.alreadyhaveanaccount , colors.login_button_color))
         self.forgot_password.bind("<Leave>" , lambda evnet : styles.tkinter_styles.change_foreground_hover(self, self.forgot_password  , colors.login_button_color))
